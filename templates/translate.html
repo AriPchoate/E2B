@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
+
+        <link rel="stylesheet" href="../static/styles.css">
+        <meta charset="UTF-8">
+        <title>Braille Translator | Translate</title>
+        <meta name="description" content="Convert English text to a 3D braille model">
+    </head>
+    <body>
+        <header class="main-header">
+            <nav class="nav main-nav">
+                <ul>
+                    <a href="{{ url_for('translate') }}">TRANSLATE</a>
+                    <a href="{{ url_for('directions') }}">DIRECTIONS</a>
+                    <a href="{{ url_for('about') }}">ABOUT</a>
+                </ul>
+            </nav>
+            <h1 class="web-name web-name-large">E2B</h1>
+            <h2 class="web-name">English to Braille</h2>
+        </header>
+
+        <form method="post" action="{{ url_for('translate') }}">
+        
+            <section class="en-input">
+                <a class="container text-primary text-large">English Input</a>
+                 
+                <textarea name="userText" rows="4" cols="50" class="en-input-text"></textarea>
+                <!-- <textarea name="userText" rows="4" cols="50" class="en-input-text" required></textarea> -->
+ 
+            </section>
+            <!-- <hr> -->
+
+            <section class="model-preferences">
+                <a class="container text-primary text-large">3D model preferences:</a>
+                
+                <div class="preference">
+                    <label class="text-primary">Base plate Width (cm): </label>
+                    <input type="text" id="baseWidth" name="baseWidth" class="preference-input">
+                </div>
+
+                <div class="preference">
+                    <label class="text-primary">Base plate Length (cm): </label>
+                    <input type="text" id="baseLength" name="baseLength" class="preference-input">
+                </div>
+
+                <div class="preference">
+                    <label class="text-primary">Base plate Height (mm): </label>
+                    <input type="text" id="baseHeight" name="baseHeight" class="preference-input">
+                </div>
+
+                <div class="preference">
+                    <label class="text-primary">Braille Height (mm): </label>
+                    <input type="text" id="brailleHeight" name="brailleHeight" class="preference-input">
+                </div>
+
+                <div>
+                    <input type="submit" name="Convert" value="Convert" class="btn btn-primary"c>
+                </div>
+
+            </section>            
+
+            <!-- script from ChatGPT- Makes it so that the page doesn't get resubmitted if reloaded-->
+            <script>  
+                if (window.history.replaceState) {
+                    window.history.replaceState(null, null, window.location.href);
+                }
+            </script>
+        
+        
+
+        <!-- <hr> -->
+            <section class="container">
+                <img src="{{ url_for('static', filename='../static/images/BrailleImage.png') }}" alt="Your Image">
+            </section>
+            <section class="container">
+                <img src="{{ url_for('static', filename='../static/images/modelImage.png') }}" alt="Your Image">
+                <!-- <input type="button" onclick="my_function()" value = "say hello" /> -->
+                
+                <!-- <input type="submit" name="Do" value="Download 3D Model" class="btn btn-primary"c> -->
+            </section>
+        </form>
+        <a href="./static/model.obj" download="braille3D.obj" class="container">
+            <button class="btn btn-primary">Download 3D model</button>
+        </a>
+
+        <footer class="main-footer">
+            <div class="container main-footer-container">
+                <h3 class="web-name web-name-footer">Braille Translator | Translate</h3>
+            </div>
+            <div class="contact-info">
+                <a class="text-primary">Contact Info</a>
+                <a class="text-primary">aapplebee26@choate.edu</a>
+                <a class="text-primary">jyan26@choate.edu</a>
+                <a class="text-primary">aperes26@choate.edu</a>
+            </div>
+        </footer>
+    </body>
+</html>

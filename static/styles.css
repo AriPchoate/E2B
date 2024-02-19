@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,400');
+@import url('https://fonts.googleapis.com/css?family=Metal+Mania');
+
+/* @font-face {
+    font-family: "Booter - Zero Zero";
+    src: url(fonts/Booter\ -\ Zero\ Zero.woff) format("woff"),
+         url(fonts/Booter\ -\ Zero\ Zero.woff2) format("woff2");
+    font-weight: normal;
+    font-style: normal;
+} */
+
+* {
+    box-sizing: border-box;
+    font-family: Raleway;
+    color: #777;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #272a2e;
+}
+
+hr {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: #ff827279;
+}
+
+.nav ul{
+    margin: 0;
+}
+
+.nav li{
+    display: inline;
+}
+
+.nav a {
+    display: inline-block;
+    padding: 0.5em;
+    color: white;
+    text-decoration: none;
+}
+
+.nav a:hover{
+    background-color: rgba(149, 149, 149, 0.3);
+}
+
+.main-nav li{
+    padding: 0 5%;
+}
+
+.main-nav {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: lighter;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.main-header {
+    background-color: rgba(0, 0, 0, 0.288);
+    background-image: url("");
+    background-blend-mode: multiply;
+    background-size: cover;
+    padding-bottom: 30px;
+}
+
+.web-name {
+    text-align: center;
+    margin: 0;
+    font-size: 4em;
+    font-family: "Garamond";
+    font-weight: normal;
+    color: #ff8372;
+}
+
+.web-name-large {
+    font-size: 7em;
+}
+
+.content-section {
+    margin: 1em;
+}
+
+.container {
+    display: flex;
+    flex-flow: column;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 1.5em;
+}
+
+.section-header {
+    font-family: "Garamond";
+    font-weight: normal;
+    color: white;
+    text-align: center;
+    font-size: 2.5em;
+}
+
+.about-web-image {
+    float: left;
+    height: 200px;
+    width: 200px;
+    margin: 15px;
+    border-radius: 50%;
+}
+
+.main-footer {
+    background-color: rgba(0, 0, 0, 0.288);
+    /* background-color: #c4776c; */
+    color: white;
+    padding: 2.5em 0;
+}
+
+.web-name-footer {
+    color: white;
+}
+
+.main-footer-container {
+    display: flex;
+    align-items: center;
+}
+
+.main-footer-container ul {
+    flex-grow: 1;
+    text-align: end;
+}
+
+.footer-nav li{
+    padding: 0 0.5em;
+}
+
+.footer-nav img {
+    width: 64px;
+    height: 64px;
+}
+
+.btn {
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.67em;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: "Garamond";
+}
+
+.btn-primary {
+    color: white;
+    background-color: #ac8275;
+    border: none;
+    border-radius: 0.5em;
+    font-weight: bold;
+    margin: 0.67em;
+}
+
+.btn-primary:hover {
+    background-color: #907164;
+}
+
+.btn-danger {
+    color: white;
+    background-color: rgb(60, 0, 10);
+    border: none;
+    border-radius: 0.3em;
+    font-weight: bold;
+}
+
+.btn-danger:hover {
+    background-color: rgb(47, 0, 0);
+}
+
+.en-input {
+    display: flex;
+    flex-flow: column;
+    padding: 0.3em;
+    padding-left: 1em;
+    width: 100%;
+    margin: auto;
+    align-items: center;
+    height: auto;
+}
+
+.en-input-text {
+    background-color:#232529;
+    color: white;
+    font-size: 1.5em;
+    font-family: "Garamond";
+    width: 40%;
+    height: 20%;
+    padding: 0.3em;
+}
+
+.text-primary {
+    color: hsl(14, 100%, 94%);
+    font-size: 1.5em;
+    font-family:  "Garamond";
+    /* padding-bottom: 1em; */
+}
+
+.text-large {
+    font-size: 2.5em;
+}
+
+.model-preferences {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.preference {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.preference-input {
+    background-color:rgb(35, 37, 41);
+    color: white;
+}
+
+.contact-info {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    gap: 10%;
+    padding-top: 3%;
+    
+}
