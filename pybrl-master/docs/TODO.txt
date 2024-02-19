@@ -1,0 +1,18 @@
+TODO:
+(1) Add more english in the language files (See Bookmarks)
+
+(2) Better detection of mathematics in detectLanguage     (If Math is detected, then use the English Characters for language, and the Greek within the Nemeth code - Not from the Language File)
+
+(3) Implement the Nemeth Code and the Universal math system
+
+(4) mathml2variable population   (Might not be needed. Probably last thing to do)
+
+(5) support for mixed numbers in Nemeth           (Find out a way... - One might be to have a number just before the fraction, but it isn't always true)
+
+(6) Implement a Page-matrix which will show the relative position of translated braille. See hypercomplex fraction on the link on TODO(6)
+
+
+NOTES:
+1- Do the conversion of the math variables before the specialCharacter variables
+2- Each time, set the indicators within the math module so that we know the language we are at.
+3- Funny stuff happen to MathML conversion of this expression: 1/(2/a_b) (Which is why the `asciimathml` dependency will be dropped)
