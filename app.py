@@ -3,7 +3,7 @@
 from flask import Flask, render_template, request
 import sys, os
 import modelGenerator
-import modelImageGen
+# import modelImageGen
 
 directory = 'pybrl-master'
 full_path = os.path.abspath(os.path.join(os.path.dirname(__file__), directory))
@@ -21,19 +21,20 @@ def translate():
     # print(text_from_form)
     if request.method == 'POST':
         baseWidth, baseLength, baseHeight, brailleHeight = request.form['baseWidth'], request.form['baseLength'], request.form['baseHeight'], request.form['brailleHeight']
-        print(baseWidth, baseLength, baseHeight, brailleHeight)
+        with open("Preferences.txt", 'w') as file:
+            file.write(f"{baseWidth}\n{baseLength}\n{baseHeight}\n{brailleHeight}\n")
         
         if request.form.get('Convert') == 'Convert':
             BrailleImage = picMaker.makeBrailleImage(text_from_form)
             #, baseWidth, baseLength, baseHeight, brailleHeight
             rootDirectory = os.getcwd()
 
-            # folderPath = os.path.join(rootDirectory, 'static', 'images', 'BrailleImage.png')  #This for Mac
-            folderPath = os.path.join(rootDirectory, 'Website', 'static', 'images', 'BrailleImage.png')  #This for Windows
+            folderPath = os.path.join(rootDirectory, 'static', 'images', 'BrailleImage.png')  #This for Mac
+            # folderPath = os.path.join(rootDirectory, 'Website', 'static', 'images', 'BrailleImage.png')  #This for Windows
 
             BrailleImage.save(folderPath, format="PNG",)
             modelGenerator.generateBraille()
-            modelImageGen.main()
+            # modelImageGen.main()
             print("stuff")
     
         elif request.form.get('Download 3D Model') == 'Download 3D Model':

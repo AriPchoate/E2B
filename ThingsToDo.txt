@@ -1,0 +1,5 @@
+Add in preferences
+Fix long word
+Make spacing adjustments if needed
+Make test print
+any last adjustmets
