@@ -8,9 +8,10 @@ from PIL import Image
 import numpy as np
 
 def getSize():
+    scale = 1
     brailleFilePath = "./Website/static/images/BrailleImage.png"
     brailleImg = Image.open(brailleFilePath)
-    brailleSize = (int(brailleImg.size[0] / 2), int(brailleImg.size[1] / 2))
+    brailleSize = (int(brailleImg.size[0] / scale), int(brailleImg.size[1] / scale))
     return brailleSize
 
 def normalize(vector):
