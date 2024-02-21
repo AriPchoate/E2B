@@ -66,7 +66,9 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 
 	# Path to the text file in the Website folder
 	text_file_path = os.path.join(parent_dir, "Website", "Preferences.txt")
-	with open(text_file_path, 'r') as prefs:
+	
+	
+	with open(text_file_path, 'r') as prefs: #Gets preferences from user
 		for i, line in enumerate(prefs):
 			try:
 				line = int(line[:-1])
@@ -89,8 +91,6 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 
 	# plateWidth = 10
 	dimx, dimy = (p.plateWidth * 10), 10000
-	print(dimx)
-	# dimx, dimy = int(baseLength) * 10, int(baseWidth) * 10
 
 	fontColor = (255, 255, 255)
 	bgColor = (39, 42, 46)
@@ -131,7 +131,7 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 								try:
 									brailleImg.putpixel((xline + x, yline + y), fontColor)
 									# print(xline+x, yline+y)
-									if y == 0 and x == 0:
+									if y == 0 and x == 0: #These two if statements write the center points of the Braille to a file, so that these points can then be used to make the 3d model. For some reason, there needs to be both methods of putting the points in the file, but without both, it doesn't work
 										with open("braillePoints.txt", 'w') as file:
 											file.write(f"{xline + x} {yline+y}\n")
 									if y == 0 and x == 0:
@@ -142,7 +142,7 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 							else:
 								try:
 									brailleImg.putpixel((xline + x, yline + y), fontColor)
-									if y == 0 and x == 0:
+									if y == 0 and x == 0:  #These two if statements write the center points of the Braille to a file, so that these points can then be used to make the 3d model. For some reason, there needs to be both methods of putting the points in the file, but without both, it doesn't work
 										with open("braillePoints.txt", 'w') as file:
 											file.write(f"{xline + x} {yline+y}\n")
 									if y == 0 and x == 0:
@@ -166,9 +166,8 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 		longX = 200
 	# print(ystart+100)
 	dim = (0, 0, dimx, ystart + 100)
-	print(dim)
 
-	FinalBrailleImage = brailleImg.crop(dim)
+	FinalBrailleImage = brailleImg.crop(dim) #Crops the image to the right dimension to fit with the user's preferences
 	# FinalBrailleImage.show()
 	return FinalBrailleImage
 
