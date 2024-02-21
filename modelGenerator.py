@@ -25,6 +25,8 @@ OMH
 from PIL import Image
 from dataclasses import dataclass
 import os, sys
+import baseSphere
+import math
 
 # TEMPORARY SNIPPET OF CODE ---------------
 # unoptimized and bad way of extracting bump locations because we pack and unpack the image for data
@@ -36,24 +38,36 @@ scale = 1
 def parseImage(p):
     bumpList = []
     # brailleFilePath = "./Website/static/images/BrailleImage.png"  #Windows
-    brailleFilePath = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static', 'images', 'BrailleImage.png'))
-    sys.path.append(brailleFilePath)
-    brailleImg = Image.open(brailleFilePath)
-    brailleSize = (int(brailleImg.size[0] / scale), int(brailleImg.size[1] / scale))
-    # Used to to set the size of the baseplate and temporarily 
-    for x in range(brailleSize[0]):
-        for y in range(brailleSize[1]):
-            # iterates through every pixel
-            try:
-                # If the pixel is the top left corner of a braille bump
-                # up of it and left of it would be grey
-                # down of it and right of it would be white
-                if brailleImg.getpixel((x - 1, y)) == bgColor and brailleImg.getpixel((x, y - 1)) == bgColor and brailleImg.getpixel((x +1, y)) == fgColor and brailleImg.getpixel((x, y + 1)) == fgColor:
-                    bumpList.append((int(x/scale), int(y/scale))) #adds to bump list
-            except IndexError:
-                continue #if the index is out of range it just skips the pixel
+    # brailleFilePath = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static', 'images', 'BrailleImage.png'))
+    # sys.path.append(brailleFilePath)
+    # brailleImg = Image.open(brailleFilePath)
+    # brailleSize = (int(brailleImg.size[0] / scale), int(brailleImg.size[1] / scale))
     # p.plateWidth = brailleSize[0]
     # p.plateLength = brailleSize[1]
+    # # Used to to set the size of the baseplate and temporarily 
+    # for x in range(brailleSize[0]):
+    #     for y in range(brailleSize[1]):
+    #         # iterates through every pixel
+    #         try:
+    #             # If the pixel is the top left corner of a braille bump
+    #             # up of it and left of it would be grey
+    #             # down of it and right of it would be white
+    #             if brailleImg.getpixel((x - 1, y)) == bgColor and brailleImg.getpixel((x, y - 1)) == bgColor and brailleImg.getpixel((x +1, y)) == fgColor and brailleImg.getpixel((x, y + 1)) == fgColor:
+    #                 bumpList.append((int(x/scale), int(y/scale))) #adds to bump list
+    #         except IndexError:
+    #             continue #if the index is out of range it just skips the pixel
+    # # p.plateWidth = brailleSize[0]
+    # # p.plateLength = brailleSize[1]
+
+    with open("braillePoints.txt", 'r') as file:
+        for line in file:
+            line = line.strip()
+            print(line)
+            points = line.split()
+            xVal = int(math.floor(int(points[0])/10))
+            yVal = int(math.floor(int(points[1])/10))
+            bumpList.append((xVal, yVal))
+
     return bumpList
 # ------------------------------------------
 
@@ -66,9 +80,15 @@ class Preferences:
     brailleHeight : float
     brailleScale : float
 
-with open("Preferences.txt", 'r') as prefs:
+# with open("./Website/Preferences.txt", 'r') as prefs: #Windows
+originalFilePath = current_dir = os.path.dirname(os.path.abspath(__file__))
+
+with open("Preferences.txt", 'r') as prefs:  #Mac
     for i, line in enumerate(prefs):
-        line = int(line[:-1])
+        try:
+            line = int(line[:-1])
+        except:
+            line = 0
         if i == 0:
             firstPref = line * 10
         if i == 1:
@@ -120,12 +140,26 @@ def createRectPrism(origin, scale, faces, vertices):
         vertices.append(newVertex) 
     
     # No adjustments need to be made to the face unlike the vertices
-    # See 
     for face in rectFaces:
         # Iterates through base cube faces
         newFace = []
         for vertex in face:
             # Only adjustment needed is to update the vertex with the current amount of vertices so their is no vertex overlap
+            newFace.append(vertex + vertexNum)
+        faces.append(newFace)
+
+def createSemiSphere(origin, scale, faces, vertices):
+    vertexNum = len(vertices)
+    for vertex in baseSphere.vertices:
+        newVertex = []
+        for i in range(3):
+            # newVertex.append((vertex[i] * scale[i]) + origin[i])
+            newVertex.append((vertex[i]) + origin[i])
+        vertices.append(newVertex)
+    
+    for face in baseSphere.faces:
+        newFace = []
+        for vertex in face:
             newFace.append(vertex + vertexNum)
         faces.append(newFace)
 
@@ -144,6 +178,22 @@ def generateModel(filePath, vertices, faces):
             fp.write("\n")
 
 def generateBraille():
+    with open("Preferences.txt", 'r') as prefs:  #Mac
+        for i, line in enumerate(prefs):
+            try:
+                line = int(line[:-1])
+            except:
+                line = 0
+            if i == 0:
+                firstPref = line * 10
+            if i == 1:
+                secPref = line * 10
+            if i == 2:
+                thrPref = line
+            if i == 3:
+                frthPref = line
+            
+        p = Preferences(firstPref, secPref, thrPref, frthPref, 2)
     bumps = parseImage(p)
     faces = []
     vertices = []
@@ -151,6 +201,8 @@ def generateBraille():
     createRectPrism((0, 0, 0), (p.plateWidth, p.plateHeight, p.plateLength), faces, vertices)
     # Iterates through every bump and creates a rectangular prism for it based on user preferences
     for bump in bumps:
-        createRectPrism((bump[0], p.plateHeight, bump[1]), (p.brailleScale, p.brailleHeight, p.brailleScale), faces, vertices)
+        createSemiSphere((bump[0], p.plateHeight, bump[1]), (p.brailleScale, p.brailleHeight, p.brailleScale), faces, vertices)
 
     generateModel(modelFilePath, vertices, faces)
+
+# generateBraille()

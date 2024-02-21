@@ -57,6 +57,7 @@ def main():
     if isinstance(loaded, trimesh.Scene):
         mesh = trimesh.util.concatenate([mesh for mesh in loaded.geometry.values()])
     else:
+        raise Exception('Something wrong happened and mesh object isnt correct')
         mesh = loaded
 
     # mesh is a Trimesh object which can be converted to a pyrender mesh
