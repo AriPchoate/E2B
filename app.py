@@ -6,7 +6,7 @@ import sys, os
 print("2/4")
 import modelGenerator
 print("3/4")
-import modelImageGen  #If there is an error with importing this, just comment this line and line 39
+# import modelImageGen  #If there is an error with importing this, just comment this line and line 44
 
 directory = 'pybrl-master'
 full_path = os.path.abspath(os.path.join(os.path.dirname(__file__), directory))
@@ -41,13 +41,8 @@ def translate():
             BrailleImage.save(folderPath, format="PNG")
             modelGenerator.generateBraille()
             
-            modelImageGen.main()
-            print("stuff")
-    
-        elif request.form.get('Download 3D Model') == 'Download 3D Model':
-            print("hola")
-        else:
-            print("Other Actions")
+            # modelImageGen.main()
+
 
     elif request.method == 'GET':
         print("No Post Back Call")
