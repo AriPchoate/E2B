@@ -11,16 +11,91 @@ OMH
 '''
 import pybrl as brl  #Source #1
 from PIL import Image
-import numpy as np
-import matplotlib.pyplot as plt
+from dataclasses import dataclass
+import os, sys
+
+
+# print(current_dir)
+braillePoints = open("braillePoints.txt", 'w')
+
+
+@dataclass
+class Preferences:
+    plateWidth : float
+    plateLength : float
+    plateHeight : float
+    brailleHeight : float
+    brailleScale : float
+
+current_dir = os.path.dirname(os.path.abspath(__file__))  #This file path navigation is from ChatGPT
+
+# Navigate up two levels to the parent directory
+parent_dir = os.path.join(current_dir, "..", "..")  
+
+# Path to the text file in the Website folder
+text_file_path = os.path.join(parent_dir, "Website", "Preferences.txt")
+
+
+with open(text_file_path, 'r') as prefs:
+    for i, line in enumerate(prefs):
+        try:
+            line = int(line[:-1])
+        except:
+            line = 0
+
+        if i == 0:
+            firstPref = line * 10
+        if i == 1:
+            secPref = line * 10
+        if i == 2:
+            thrPref = line
+        if i == 3:
+            frthPref = line
+    p = Preferences(firstPref, secPref, thrPref, frthPref, 2)
+
 
 def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
-	dimx, dimy = 1000, 1000
+	current_dir = os.path.dirname(os.path.abspath(__file__))
+	# print(current_dir)
+	braillePoints = open("braillePoints.txt", 'w')
+	
+	current_dir = os.path.dirname(os.path.abspath(__file__))  #This file path navigation is from ChatGPT
+
+	# Navigate up two levels to the parent directory
+	parent_dir = os.path.join(current_dir, "..", "..")  
+
+	# Path to the text file in the Website folder
+	text_file_path = os.path.join(parent_dir, "Website", "Preferences.txt")
+	with open(text_file_path, 'r') as prefs:
+		for i, line in enumerate(prefs):
+			try:
+				line = int(line[:-1])
+			except:
+				line = 0
+
+			if i == 0:
+				firstPref = line * 10
+			if i == 1:
+				secPref = line * 10
+			if i == 2:
+				thrPref = line
+			if i == 3:
+				frthPref = line
+		p = Preferences(firstPref, secPref, thrPref, frthPref, 2)
+
+	current_dir = os.path.dirname(os.path.abspath(__file__))
+	print(current_dir)
+	braillePoints = open("braillePoints.txt", 'w')
+
+	# plateWidth = 10
+	dimx, dimy = (p.plateWidth * 10), 10000
+	print(dimx)
 	# dimx, dimy = int(baseLength) * 10, int(baseWidth) * 10
 
 	fontColor = (255, 255, 255)
 	bgColor = (39, 42, 46)
 	brailleImg = Image.new("RGB", (dimx, dimy), bgColor)  #Size of image
+	# brailleImg.show()
 
 
 	# string = "Braille Translator" #This will later be the users input from the app
@@ -32,12 +107,9 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 		spot.append('000000')
 		finalBrailleNum.append(spot)
 
-	# print(finalBrailleNum)
 	xstart, ystart = 30, 30  #This is just where we start to draw the Braille eon our image
 	xline, yline = xstart, ystart
 	longX, newLongX = xstart, False
-
-
 
 	for spot in finalBrailleNum:  #Each word
 		lengthWord = len(spot)	
@@ -47,21 +119,34 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 				if num == 1:  #The number is one if it is a dot that must be printed
 					for y in range(-3, 4):
 						for x in range(-3, 4):  #This goes through a 3x3 square around a pixel
-							if (lengthWord * 25) + xline + 3 > 1000:  #This checks to see if a new line has to be started. This if statement isn't perfect yet and has to be revised for the final image creation, but it is close to being good
+	
+							if (lengthWord * 25) + xline + 3 > dimx-20:  #This checks to see if a new line has to be started. This if statement isn't perfect yet and has to be revised for the final image creation, but it is close to being good
 								ystart += 100  #Adds 100 pixels between each line
 								yline = ystart
 								if xline > longX:
 									longX = xline
 									newLongX = True
-									print(xline, longX)
+									# print(xline, longX)
 								xline = xstart
 								try:
 									brailleImg.putpixel((xline + x, yline + y), fontColor)
+									# print(xline+x, yline+y)
+									if y == 0 and x == 0:
+										with open("braillePoints.txt", 'w') as file:
+											file.write(f"{xline + x} {yline+y}\n")
+									if y == 0 and x == 0:
+										braillePoints.write(f"{xline + x} {yline + y}\n")
+										
 								except IndexError:
 									continue
 							else:
 								try:
 									brailleImg.putpixel((xline + x, yline + y), fontColor)
+									if y == 0 and x == 0:
+										with open("braillePoints.txt", 'w') as file:
+											file.write(f"{xline + x} {yline+y}\n")
+									if y == 0 and x == 0:
+										braillePoints.write(f"{xline + x} {yline + y}\n")
 								except IndexError:
 									continue
 							# except:  #If we are trying to put a dot outside of the range of the image, it starts a new line
@@ -77,14 +162,14 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 
 	if newLongX == False:
 		longX = xline
-	if longX < 300:
-		longX = 300
+	if longX < 200:
+		longX = 200
+	# print(ystart+100)
+	dim = (0, 0, dimx, ystart + 100)
+	print(dim)
 
-	dim = (0, 0, longX + 20, ystart + 100)
-
-	FinalBrailleImage = brailleImg.crop(dim)	
+	FinalBrailleImage = brailleImg.crop(dim)
 	# FinalBrailleImage.show()
-	# FinalBrailleImage.save("output.png", format="PNG")
 	return FinalBrailleImage
 
-# makeBrailleImage("Hello", 100, 100, 1, 1)
+makeBrailleImage("Hello")
