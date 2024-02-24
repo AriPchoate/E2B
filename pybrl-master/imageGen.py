@@ -14,8 +14,6 @@ from PIL import Image
 from dataclasses import dataclass
 import os, sys
 
-
-# print(current_dir)
 braillePoints = open("braillePoints.txt", 'w')
 
 
@@ -24,7 +22,6 @@ class Preferences:
     plateWidth : float
     plateLength : float
     plateHeight : float
-    brailleHeight : float
     brailleScale : float
 
 current_dir = os.path.dirname(os.path.abspath(__file__))  #This file path navigation is from ChatGPT
@@ -49,9 +46,7 @@ with open(text_file_path, 'r') as prefs:
             secPref = line * 10
         if i == 2:
             thrPref = line
-        if i == 3:
-            frthPref = line
-    p = Preferences(firstPref, secPref, thrPref, frthPref, 2)
+    p = Preferences(firstPref, secPref, thrPref, 2)
 
 
 def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
@@ -81,9 +76,7 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 				secPref = line * 10
 			if i == 2:
 				thrPref = line
-			if i == 3:
-				frthPref = line
-		p = Preferences(firstPref, secPref, thrPref, frthPref, 2)
+		p = Preferences(firstPref, secPref, thrPref, 2)
 
 	current_dir = os.path.dirname(os.path.abspath(__file__))
 	print(current_dir)
@@ -114,15 +107,17 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 	for spot in finalBrailleNum:  #Each word
 		lengthWord = len(spot)	
 		for letter in spot:  #Each letter
+			index = 0
 			for num in letter:  #Each binary
+				index += 1
 				num = int(num)  #The number is originally in a string, so we have to convert it to an int
 				if num == 1:  #The number is one if it is a dot that must be printed
 					for y in range(-3, 4):
 						for x in range(-3, 4):  #This goes through a 3x3 square around a pixel
-	
-							if (lengthWord * 25) + xline + 3 > dimx-20:  #This checks to see if a new line has to be started. This if statement isn't perfect yet and has to be revised for the final image creation, but it is close to being good
+							if xline + 15 > dimx-20:
 								ystart += 100  #Adds 100 pixels between each line
 								yline = ystart
+								ystart = yline
 								if xline > longX:
 									longX = xline
 									newLongX = True
@@ -133,9 +128,9 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 									# print(xline+x, yline+y)
 									if y == 0 and x == 0: #These two if statements write the center points of the Braille to a file, so that these points can then be used to make the 3d model. For some reason, there needs to be both methods of putting the points in the file, but without both, it doesn't work
 										with open("braillePoints.txt", 'w') as file:
-											file.write(f"{xline + x} {yline+y}\n")
+											file.write(f"{xline + x} {yline+y} {index}\n")
 									if y == 0 and x == 0:
-										braillePoints.write(f"{xline + x} {yline + y}\n")
+										braillePoints.write(f"{xline + x} {yline + y} {index}\n")
 										
 								except IndexError:
 									continue
@@ -144,21 +139,28 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 									brailleImg.putpixel((xline + x, yline + y), fontColor)
 									if y == 0 and x == 0:  #These two if statements write the center points of the Braille to a file, so that these points can then be used to make the 3d model. For some reason, there needs to be both methods of putting the points in the file, but without both, it doesn't work
 										with open("braillePoints.txt", 'w') as file:
-											file.write(f"{xline + x} {yline+y}\n")
+											file.write(f"{xline + x} {yline+y} {index}\n")
 									if y == 0 and x == 0:
-										braillePoints.write(f"{xline + x} {yline + y}\n")
+										braillePoints.write(f"{xline + x} {yline + y} {index}\n")
 								except IndexError:
 									continue
 							# except:  #If we are trying to put a dot outside of the range of the image, it starts a new line
 								
 
-				yline += 15  #This makes adds a 15 pixel margin between each dot or blank dot
-				if yline - ystart >= 44:  #If the y has already been increased 3 times, it returns back to the top to start the next column of dots
+				yline += 20  #This makes adds a 15 pixel margin between each dot or blank dot
+				if yline - ystart >= 59:  #If the y has already been increased 3 times, it returns back to the top to start the next column of dots
 					yline = ystart
-					xline += 15  #Makes space for the next column in the letter
-			xline += 10 #Adds space between each letter
+					xline += 20  #Makes space for the next column in the letter
+			xline += 20 #Adds space between each letter
 
 		ystart = yline
+
+	
+
+
+
+# ...
+
 
 	if newLongX == False:
 		longX = xline
