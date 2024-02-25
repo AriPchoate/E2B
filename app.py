@@ -54,8 +54,8 @@ def translate():  #This is the main website page
     if text_from_form == None:
         text_from_form = ""
     
-    with open("userInputs.txt", 'a') as file:  #We append the user's input to a file to make sure that the user's input is properly received and read
-        file.write(text_from_form + "\n")
+    # with open("userInputs.txt", 'a') as file:  #We append the user's input to a file to make sure that the user's input is properly received and read
+    #     file.write(text_from_form + "\n")
 
     # print(text_from_form)
     if request.method == 'POST':  #This just means that the user did something on the page, which triggers 'POST'
