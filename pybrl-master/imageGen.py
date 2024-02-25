@@ -105,26 +105,33 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 	longX, newLongX = xstart, False
 
 	for spot in finalBrailleNum:  #Each word
-		lengthWord = len(spot)	
+			
 		for letter in spot:  #Each letter
 			index = 0
+			addedHun = False
+			
 			for num in letter:  #Each binary
+				
 				index += 1
 				num = int(num)  #The number is originally in a string, so we have to convert it to an int
+				
 				if num == 1:  #The number is one if it is a dot that must be printed
+					
 					for y in range(-3, 4):
 						for x in range(-3, 4):  #This goes through a 3x3 square around a pixel
+							
 							if xline + 15 > dimx-20:
 								ystart += 100  #Adds 100 pixels between each line
+								addedHun = True
 								yline = ystart
-								ystart = yline
 								if xline > longX:
 									longX = xline
-									newLongX = True
-									# print(xline, longX)
+									
 								xline = xstart
+								
 								try:
 									brailleImg.putpixel((xline + x, yline + y), fontColor)
+
 									# print(xline+x, yline+y)
 									if y == 0 and x == 0: #These two if statements write the center points of the Braille to a file, so that these points can then be used to make the 3d model. For some reason, there needs to be both methods of putting the points in the file, but without both, it doesn't work
 										with open("braillePoints.txt", 'w') as file:
@@ -134,20 +141,25 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 										
 								except IndexError:
 									continue
+
 							else:
+								
 								try:
 									brailleImg.putpixel((xline + x, yline + y), fontColor)
+
 									if y == 0 and x == 0:  #These two if statements write the center points of the Braille to a file, so that these points can then be used to make the 3d model. For some reason, there needs to be both methods of putting the points in the file, but without both, it doesn't work
 										with open("braillePoints.txt", 'w') as file:
 											file.write(f"{xline + x} {yline+y} {index}\n")
 									if y == 0 and x == 0:
 										braillePoints.write(f"{xline + x} {yline + y} {index}\n")
+
 								except IndexError:
 									continue
 							# except:  #If we are trying to put a dot outside of the range of the image, it starts a new line
 								
 
-				yline += 20  #This makes adds a 15 pixel margin between each dot or blank dot
+				if not addedHun:
+					yline += 20  #This makes adds a 15 pixel margin between each dot or blank dot
 				if yline - ystart >= 59:  #If the y has already been increased 3 times, it returns back to the top to start the next column of dots
 					yline = ystart
 					xline += 20  #Makes space for the next column in the letter
@@ -155,15 +167,7 @@ def makeBrailleImage(string): # baseWidth, baseLength, baseHeight, brailleHeight
 
 		ystart = yline
 
-	
 
-
-
-# ...
-
-
-	if newLongX == False:
-		longX = xline
 	if longX < 200:
 		longX = 200
 	# print(ystart+100)
