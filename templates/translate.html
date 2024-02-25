@@ -1,3 +1,12 @@
+<!-- 
+Ari, Aureliano, and Joe
+This part of the website is the main section that generates all of the
+3d Braille and the Braille image. This section was not too hard to code
+after we figured out how to use html with python in Flask.
+Sources: https://flask.palletsprojects.com/en/3.0.x/ - This source was used to figure make html compatible with python through Flask. The coding principles from this source are scattered around the entirety of the code because of the specificity of important commands.
+
+ -->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -37,23 +46,19 @@
                 
                 <div class="preference">
                     <label class="text-primary">Base plate Width (cm): </label>
-                    <input type="text" id="baseWidth" name="baseWidth" class="preference-input">
+                    <input type="text" id="baseWidth" name="baseWidth" class="preference-input" required>
                 </div>
 
                 <div class="preference">
                     <label class="text-primary">Base plate Length (cm): </label>
-                    <input type="text" id="baseLength" name="baseLength" class="preference-input">
+                    <input type="text" id="baseLength" name="baseLength" class="preference-input" required>
                 </div>
 
                 <div class="preference">
                     <label class="text-primary">Base plate Height (mm): </label>
-                    <input type="text" id="baseHeight" name="baseHeight" class="preference-input">
+                    <input type="text" id="baseHeight" name="baseHeight" class="preference-input" required>
                 </div>
 
-                <div class="preference">
-                    <label class="text-primary">Braille Height (mm): </label>
-                    <input type="text" id="brailleHeight" name="brailleHeight" class="preference-input">
-                </div>
 
                 <div>
                     <input type="submit" name="Convert" value="Convert" class="btn btn-primary"c>
@@ -73,12 +78,6 @@
         <!-- <hr> -->
             <section class="container">
                 <img src="{{ url_for('static', filename='../static/images/BrailleImage.png') }}" alt="Your Image">
-            </section>
-            <section class="container">
-                <img src="{{ url_for('static', filename='../static/images/modelImage.png') }}" alt="Your Image">
-                <!-- <input type="button" onclick="my_function()" value = "say hello" /> -->
-                
-                <!-- <input type="submit" name="Do" value="Download 3D Model" class="btn btn-primary"c> -->
             </section>
         </form>
         <a href="./static/model.obj" download="braille3D.obj" class="container">

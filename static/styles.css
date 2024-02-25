@@ -81,6 +81,7 @@ hr {
 
 .content-section {
     margin: 1em;
+    line-height: 1.5;
 }
 
 .container {
@@ -93,7 +94,7 @@ hr {
 
 .section-header {
     font-family: "Garamond";
-    font-weight: normal;
+    font-weight: strong;
     color: white;
     text-align: center;
     font-size: 2.5em;
