@@ -1,0 +1,48 @@
+<!-- 
+This code hosts the 'directions' page for the website. This part of the website was not hard to code due to its simplicity and lack of backend for this part of the website. It explains to the user how to make their Braille image and 3d model.
+Sources: https://flask.palletsprojects.com/en/3.0.x/ - This source was used to figure make html compatible with python through Flask. The coding principles from this source are scattered around the entirety of the code because of the specificity of important commands.
+OMH 
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="../static/styles.css">
+        <meta charset="UTF-8">
+        <title>Braille Translator | Directions</title>
+        <meta name="description" content="Convert English text to a 3D braille model | About">
+    </head>
+    <body>
+        <header class="main-header">
+            <nav class="nav main-nav">
+                <ul>
+                    <a href="{{ url_for('translate') }}">TRANSLATE</a>
+                    <a href="{{ url_for('directions') }}">DIRECTIONS</a>
+                    <a href="{{ url_for('about') }}">ABOUT</a>
+                </ul>
+            </nav>
+            <h1 class="web-name web-name-large">E2B</h1>
+            <h2 class="web-name">English to Braille</h2>
+        </header>
+
+        <section class="content-section container">
+            <h2 class="section-header">Directions</h2>
+            <p class="text-primary">
+                In this website under the translate page, you have the ability to convert any text of your choosing, including any characters or numbers, to a picture of Braille, along with a 3d model of the Braille, which you will be able to 3d print. First off, you must enter text into the text box under, 'English Input'. Then, you must enter your desired dimensions for your 3d Braille model into the boxes under '3d Model Preferences'. Then, you can click the convert button. An image of your Braille will be shown below the convert button, and then you may also click the 'Download 3d Model Button' at the bottom of the page to download the 3d model. If the Braille on the 3d model extends out of the build plate, please either make the text smaller or change the parameters of the build plate length to make the Braille fit. Furthermore, please use numbers bigger than 3, otherwise the model/image will not be generated due to too small of size. The downloaded 3d file will be an OBJ file. This can be imported into and 3d slicer, which can then be exported to a 3d printer.
+            </p>
+            
+        </section>
+        <footer class="main-footer">
+            <div class="container main-footer-container">
+                <h3 class="web-name web-name-footer">Braille Translator | Directions</h3>
+            </div>
+            <div class="contact-info">
+                <a class="text-primary">Contact Info</a>
+                <a class="text-primary">aapplebee26@choate.edu</a>
+                <a class="text-primary">jyan26@choate.edu</a>
+                <a class="text-primary">aperes26@choate.edu</a>
+            </div>
+        </footer>
+    </body>
+</html>
